@@ -12,6 +12,8 @@
 //          1.  Need an array of questions and answers (array of objects?)
 //          2.  After clicking answer button, switch to another question/answer set
 //          3.  Questions will be randomly picked from the array and presented
+//          4.  Append list of answers to the question location inside body
+//          5.  The random question selected will take the place replace the textContent of 
 
 
 // WHEN I answer a question incorrectly
@@ -33,16 +35,40 @@
 var quizContainer = document.querySelector('#quiz');
 var startButton = document.querySelector('#startBtn');
 var timeRemaining = document.querySelector('#timeLeft');
+var highScores = document.querySelector('#highScores');
+var questionText = document.querySelector('#question');
+var answerText = document.querySelector('#answer');
 
 var time = 30;
+var correctAnswers = 0;
+var wrongAnswers = 0;
 
-var questions = [];
+var randomQuestions
 
-startButton.addEventListener("click", startQuiz());
+var questions = [
+    {
+        question: "What is the name of the F1 track in Austin?", answers: ["America's Track", "Austin Raceway", "Circuit of the America's", "Texas Motor Speedway"],
+        answer: 2
+    }, {
+        question: "As of 2021, how many driver's championsips has Lewis Hamilton won?",
+        answers: ["4", "7", "10", "2"],
+        answer: 1
+    }, 
+    {
+        question: "Alpha Tauri is the new name of what previous team?",
+        answers: ["Renault", "Jordan", "Porsche", "Torro Rosso"],
+        answer: 3
+    }, 
+    {
+        question: "Which team did Michael Schumacher "
+    }];
+
+startButton.addEventListener("click", startQuiz);
 
 
 // Starts other functions that begin the quiz
 function startQuiz() {
+
 
 }
 
@@ -50,4 +76,10 @@ function startQuiz() {
 
 
 
+// Function that gets next question
+// needs to randomly select a question from the array
+function nextQuestion() {
+  for (var i = 0; i < randomQuestions.length; i++) {
 
+  }
+}
