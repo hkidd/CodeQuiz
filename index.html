@@ -4,27 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz | Harrison Kidd</title>
+    <link rel="stylesheet" type="text/css" href="./assets/styles.css">
+    <title>F1 Quiz | Harrison Kidd</title>
 </head>
 <body>
     <header>
-        <h2 id="highScores">
+        <h2 id="highScores" style="text-align: left; display: inline;">
             View High Scores
         </h2>
 
-        <h2 id="timer">
-            Timer:
+        <h2 id="timer" style="text-align: right; display: block;">
+            Timer: 10 seconds<span id="timeLeft"></span>
         </h2>
     </header>
     
     <main>
-        <div id="quiz">
 
+        <div class="quizTitle">
+            <h2 style="text-align: center;">Test Your Knowledge of Formula 1!</h2>
+            <br>
+        </div>
+
+        <div id="quiz">
+            <section>
+                <p id="question" style="text-align: center;">
+                    Example Question <br>
+                    A: answer 1 <br>
+                    B: answer 2 <br>
+                    C: answer 3 <br>
+                    D: answer 4 <br>
+                </p>
+            </section>
         </div>
 
         <div id="startBtn">
-            <button>
-
+            <button class="button">
+                Start Quiz!
             </button>
         </div>        
 
@@ -34,5 +49,6 @@
 
     </footer>
 
+    <script src="./assets/script.js"></script>
 </body>
 </html>
