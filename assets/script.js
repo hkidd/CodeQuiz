@@ -53,6 +53,7 @@ var saveResultsBtn = document.querySelector('#saveResultsBtn');
 var saveHighScoreBtn = document.querySelector('#saveHighScore');
 
 // Global time and score variables
+var timerText = document.querySelector('#timer');
 var timeLeft = 20;
 var timeInterval; // global to be accessed by multiple functions
 var correctAnswers = 0;
@@ -104,6 +105,7 @@ startButton.addEventListener("click", startQuiz);
 function init() {
     startButton.style.display = "block";
     timeRemaining.style.display = "none";
+    timerText.style.display = "none";
     quizContainer.style.display = "none";
     resultsContainer.style.display = "none";
     saveResultsForm.style.display = "none";
@@ -121,6 +123,7 @@ function startQuiz(event) {
 
     // Calls the function to start the timer
     countdown();
+    timerText.style.display = "inline-block";
     timeRemaining.style.display = "inline-block";
 
     // Calls the function to shuffle the questions
@@ -157,7 +160,7 @@ function shuffle(questions) {
     return questions;
 };
 
-// Function that shows the current question
+// Function that shows the current question with answers in the quiz container
 function showQuestion() {
     // The questionIndex should be shuffled each time the quiz is started. 
     var currentQ = questions[currentQuestionIndex];
@@ -177,17 +180,16 @@ function showQuestion() {
 function checkAnswer(answer) {
     if(answer == questions[currentQuestionIndex].correct) {
         correctAnswers++;
-        // console.log(answer);
-    } else {//if (answer != questions[currentQuestionIndex].correct){
+    } else {
         wrongAnswers++;
         wrongAns();
-        // console.log(answer);
     }
 
     // Check if there are still questions remaining
     if (currentQuestionIndex < lastQuestionIndex) {
         currentQuestionIndex++;
         showQuestion();
+        // if not, the timer ends and the results container is shown
     } else {
         clearInterval(timeInterval);
         showResults();
@@ -199,7 +201,7 @@ function wrongAns() {
     timeLeft = timeLeft - 5; 
 }
 
-// Initialize final score value
+// Initialize final score value and function to calculate score
 var score;
 function calculateScore() {
     score = (100 * ((correctAnswers - wrongAnswers)/questions.length));
@@ -211,6 +213,7 @@ function showResults() {
 
     resultsContainer.style.display = "block";
     quizContainer.style.display = "none";
+    timerText.style.display = "none";
 
     // Show total correct and incorrect answers
     totalCorrect.innerHTML = "Correct: " + correctAnswers;
@@ -254,7 +257,6 @@ getHighScoreBtn.addEventListener("click", retrieveHighScores);
 
 // 
 function retrieveHighScores() {
-
     // Get stored value from client storage, if it exists
     var storedScores = JSON.parse(localStorage.getItem("userInfo"));
 // If stored value doesn't exist, set to empty string
