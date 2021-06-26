@@ -35,6 +35,7 @@ var timeRemaining = document.querySelector('#timeLeft');
 // High score retrieval variables
 var highScoreContainer = document.querySelector('#highScores');
 var getHighScoreBtn = document.querySelector('#highScoresBtn');
+var highScoreOrderedList = document.querySelector('#highScoreList');
 // Question and answer variables
 var questionText = document.querySelector('#question');
 var answerTextA = document.querySelector('#answer1');
@@ -51,7 +52,7 @@ var saveResultsForm = document.querySelector('#form');
 var saveResultsBtn = document.querySelector('#saveResultsBtn');
 var saveHighScoreBtn = document.querySelector('#saveHighScore');
 
-// Time and score variables
+// Global time and score variables
 var timeLeft = 20;
 var timeInterval; // global to be accessed by multiple functions
 var correctAnswers = 0;
@@ -96,13 +97,23 @@ var questions = [
 var currentQuestionIndex = 0;
 var lastQuestionIndex = (questions.length - 1);    
 
+// Clicking the start button starts the quiz
 startButton.addEventListener("click", startQuiz);
 
+// Resets everything upon page load and after restarting quiz
 function init() {
     startButton.style.display = "block";
+    timeRemaining.style.display = "none";
     quizContainer.style.display = "none";
+    resultsContainer.style.display = "none";
+    saveResultsForm.style.display = "none";
+    timeLeft = 20;
+    shuffle(questions);
+    currentQuestionIndex = 0;
+    correctAnswers = 0;
+    wrongAnswers = 0;
+    totalScore = 0;
 }
-
 
 // Starts other functions that begin the quiz
 function startQuiz(event) {
@@ -110,6 +121,7 @@ function startQuiz(event) {
 
     // Calls the function to start the timer
     countdown();
+    timeRemaining.style.display = "inline-block";
 
     // Calls the function to shuffle the questions
     shuffle(questions);
@@ -124,7 +136,7 @@ function startQuiz(event) {
 function countdown() {
     timeInterval = setInterval(function () {
         timeLeft--;
-        timeRemaining.textContent = timeLeft;
+        timeRemaining.textContent = timeLeft + ' sec remaining';
         if (timeLeft === 0) {
             clearInterval(timeInterval);
             showResults();
@@ -182,8 +194,9 @@ function checkAnswer(answer) {
     }
 }
 
+// Timer decreases by 5 seconds for every wrong answer
 function wrongAns() {
-    timeLeft = timeLeft - 5; // Timer decreases by 5 seconds
+    timeLeft = timeLeft - 5; 
 }
 
 // Initialize final score value
@@ -210,12 +223,11 @@ function showResults() {
 // Event listener for clicking the save results button
 saveResultsBtn.addEventListener("click", saveResults);
 
-// Functions to save results to local storage
+// Function to save results to local storage
 function saveResults() {
-
     calculateScore();
     saveResultsForm.style.display = "block";
-    finalScore.innerHTML = score;
+    finalScore.innerHTML = "Score = " + score;
     resultsContainer.style.display = "none";
 }
 
@@ -223,7 +235,6 @@ function saveResults() {
 saveHighScoreBtn.addEventListener("click", saveHighScore);
 
 function saveHighScore() {
-
     calculateScore();
 
     var userInfo = { 
@@ -234,13 +245,27 @@ function saveHighScore() {
 
     var playAgain = confirm("Would you like to try again?");
     if (playAgain)
-        startQuiz();
+        init();
         else return;
 }
 
 // Function to retrieve high scores from local storage
 getHighScoreBtn.addEventListener("click", retrieveHighScores);
 
+// 
 function retrieveHighScores() {
-    localStorage.getItem
+
+    // Get stored value from client storage, if it exists
+    var storedScores = JSON.parse(localStorage.getItem("userInfo"));
+// If stored value doesn't exist, set to empty string
+  if (storedScores === null) {
+     var highScores = '';
+  } else {
+    // If a value is retrieved from client storage set highScores to that value
+    highScores = storedScores;
+  }
+  //Render high score to page
+  highScoreOrderedList.innerHTML = highScores.initials + ', ' + highScores.highScore;
 }
+
+init();
