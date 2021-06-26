@@ -17,7 +17,7 @@
 
         <!-- Timer will count down to zero -->
         <h2 id="timer" style="text-align: right; display: block;">
-            Timer: 10 seconds<span id="timeLeft"></span>
+            Timer: <span id="timeLeft"></span>
         </h2>
     </header>
     
@@ -29,21 +29,21 @@
         </div>
 
         <!-- This div holds the question and answers -->
-        <div id="quiz">
+        <div id="quiz" style="display: none;">
             <section>
-                <div id="questionSpot" style="text-align: center;"><span id="question"></span></div>
-                    Example Question <br>
+                <div id="questionSpot" style="text-align: center;"><span id="question">Example Question</span></div>
+                <br>
                 <div id="answerChoices">
-                   <div id="answer1">A: answer 1</div> 
-                   <div id="answer2">B: answer 2</div>
-                   <div id="answer3">C: answer 3</div>
-                   <div id="answer4">D: answer 4</div>
+                   <div class="choice" id="answer1" onclick="checkAnswer('A')">A: answer 1</div> 
+                   <div class="choice" id="answer2" onclick="checkAnswer('B')">B: answer 2</div>
+                   <div class="choice" id="answer3" onclick="checkAnswer('C')">C: answer 3</div>
+                   <div class="choice" id="answer4" onclick="checkAnswer('D')">D: answer 4</div>
                 </div>
             </section>
         </div>
 
         <div id="correctAnswerCount">
-            
+
         </div>
 
         <br>
@@ -57,7 +57,13 @@
         </div>        
 
         
-        <div id="results" style="display: none;"></div>
+        <div id="results" style="display: none;">
+            <div id="finalResults">
+                Your Results!
+            </div>
+            <div id="totalCorrect">Correct: </div>
+            <div id="totalIncorrect">Incorrect: </div>
+        </div>
 
     </main>
 

@@ -11,7 +11,8 @@ header {
     padding: 10px;
 }
 
-#quiz {
+#quiz, 
+#results {
     padding: 10px;
     min-width: fit-content;
     max-width: 50%;
@@ -49,6 +50,16 @@ header {
     border: 3px solid whitesmoke;
     border-radius: 10px;
     box-shadow: inset 1px 1px 10px rgba(0,0,0,0.45);
+}
+
+.choice {
+    padding: 8px;
+    width: 25%;
+    margin: auto;
+    text-align: center;
+    border: 1px solid red;
+    border-radius: 3px;
+
 }
 
 footer {
