@@ -60,6 +60,8 @@ var correctAnswers = 0;
 var wrongAnswers = 0;
 var totalScore = 0;
 
+// Answer div event listeners, change away from OnClick in html
+
 // Array of all questions.  From here, the individual properties can be accessed.
 var questions = [
     {
@@ -172,6 +174,8 @@ function showQuestion() {
     answerTextC.innerHTML = currentQ.answerC;
     answerTextD.innerHTML = currentQ.answerD;
 }
+
+
 
 // Function that gets next question
 // On answer click, the questionIndex will be incremented
