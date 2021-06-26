@@ -6,48 +6,54 @@
 //          2.  Timer starts counting down
 //          3.  First question is presented with answer choices
 
-
 // WHEN I answer a question
 // THEN I am presented with another question
 //          1.  Need an array of questions and answers (array of objects?)
 //          2.  After clicking answer button, switch to another question/answer set (increment question index)
 //          3.  Questions will be randomly picked from the array and presented (questions are randomized when startQuiz is called)
 //          4.  Append list of answers to the question location inside body (innerHTML will be used to show the questions and answers)
-//          5.  The random question selected will take the place replace the textContent of 
-
+//          5.  The random question selected will replace the innerHTML
 
 // WHEN I answer a question incorrectly
 // THEN time is subtracted from the clock
 //          1.  If answer is incorrect, subtract time from the timer (decrement)
-
 
 // WHEN all questions are answered or the timer reaches 0
 // THEN the game is over
 //          1.  If all questions are answered or time = 0, terminate function
 //          2.  Display Game Over message?
 
-
 // WHEN the game is over
 // THEN I can save my initials and my score
 //          1.  When game ends, prompt or new form is presented to save user initials and score
 
 // HTML references
+// General variables
 var quizContainer = document.querySelector('#quiz');
 var startButton = document.querySelector('#startBtn');
 var timeRemaining = document.querySelector('#timeLeft');
-var highScores = document.querySelector('#highScores');
+// High score retrieval variables
+var highScoreContainer = document.querySelector('#highScores');
+var getHighScoreBtn = document.querySelector('#highScoresBtn');
+// Question and answer variables
 var questionText = document.querySelector('#question');
 var answerTextA = document.querySelector('#answer1');
 var answerTextB = document.querySelector('#answer2');
 var answerTextC = document.querySelector('#answer3');
 var answerTextD = document.querySelector('#answer4');
-var correctCount = document.querySelector('#correctAnswerCount');
+// Results and score related variables
 var resultsContainer = document.querySelector('#results');
 var totalCorrect = document.querySelector('#totalCorrect');
 var totalIncorrect = document.querySelector('#totalIncorrect');
+var percentCorrect = document.querySelector('#percentCorrect');
+var finalScore = document.querySelector('#finalScore');
+var saveResultsForm = document.querySelector('#form');
+var saveResultsBtn = document.querySelector('#saveResultsBtn');
+var saveHighScoreBtn = document.querySelector('#saveHighScore');
 
-// Global variables
-var timeLeft = 30;
+// Time and score variables
+var timeLeft = 20;
+var timeInterval; // global to be accessed by multiple functions
 var correctAnswers = 0;
 var wrongAnswers = 0;
 var totalScore = 0;
@@ -90,13 +96,16 @@ var questions = [
 var currentQuestionIndex = 0;
 var lastQuestionIndex = (questions.length - 1);    
 
-
 startButton.addEventListener("click", startQuiz);
+
+function init() {
+    startButton.style.display = "block";
+    quizContainer.style.display = "none";
+}
 
 
 // Starts other functions that begin the quiz
 function startQuiz(event) {
-
     event.preventDefault();
 
     // Calls the function to start the timer
@@ -111,9 +120,9 @@ function startQuiz(event) {
     quizContainer.style.display = "block";
 }
 
-// Function that starts the timer
+// Function that starts the timer and decrements every second
 function countdown() {
-    var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
         timeLeft--;
         timeRemaining.textContent = timeLeft;
         if (timeLeft === 0) {
@@ -123,7 +132,6 @@ function countdown() {
         }
     }, 1000);
 }
-
 
 // Shuffle question array each time startQuiz is called
 function shuffle(questions) {
@@ -137,7 +145,6 @@ function shuffle(questions) {
     return questions;
 };
 
-
 // Function that shows the current question
 function showQuestion() {
     // The questionIndex should be shuffled each time the quiz is started. 
@@ -149,7 +156,6 @@ function showQuestion() {
     answerTextB.innerHTML = currentQ.answerB;
     answerTextC.innerHTML = currentQ.answerC;
     answerTextD.innerHTML = currentQ.answerD;
-
 }
 
 // Function that gets next question
@@ -159,11 +165,11 @@ function showQuestion() {
 function checkAnswer(answer) {
     if(answer == questions[currentQuestionIndex].correct) {
         correctAnswers++;
-        console.log(answer);
-    } else if (answer != questions[currentQuestionIndex].correct){
+        // console.log(answer);
+    } else {//if (answer != questions[currentQuestionIndex].correct){
         wrongAnswers++;
         wrongAns();
-        console.log(answer);
+        // console.log(answer);
     }
 
     // Check if there are still questions remaining
@@ -171,37 +177,70 @@ function checkAnswer(answer) {
         currentQuestionIndex++;
         showQuestion();
     } else {
-        clearInterval(timeLeft);
+        clearInterval(timeInterval);
         showResults();
     }
 }
 
-
-
-// function correctAns() {
-//     // change score text to show current number of correct answers
-// }
-
-function wrongAns(){
-    // change score text to show current number of correct answers
-    timeLeft = timeLeft - 5;
+function wrongAns() {
+    timeLeft = timeLeft - 5; // Timer decreases by 5 seconds
 }
 
-
+// Initialize final score value
+var score;
+function calculateScore() {
+    score = (100 * ((correctAnswers - wrongAnswers)/questions.length));
+}
 
 // Function that will show the results at the end
 function showResults() {
+    calculateScore();
+
     resultsContainer.style.display = "block";
     quizContainer.style.display = "none";
+
     // Show total correct and incorrect answers
     totalCorrect.innerHTML = "Correct: " + correctAnswers;
     totalIncorrect.innerHTML = "Incorrect: " + wrongAnswers;
+    percentCorrect.innerHTML = "Score: " + score;
 
     timeRemaining.textContent = '';
 }
 
+// Event listener for clicking the save results button
+saveResultsBtn.addEventListener("click", saveResults);
 
-// Save results to local storage
+// Functions to save results to local storage
 function saveResults() {
 
+    calculateScore();
+    saveResultsForm.style.display = "block";
+    finalScore.innerHTML = score;
+    resultsContainer.style.display = "none";
+}
+
+// Event listener for clicking the save high score button
+saveHighScoreBtn.addEventListener("click", saveHighScore);
+
+function saveHighScore() {
+
+    calculateScore();
+
+    var userInfo = { 
+        initials: initials.value.trim(),
+        highScore: score,
+      }
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+    var playAgain = confirm("Would you like to try again?");
+    if (playAgain)
+        startQuiz();
+        else return;
+}
+
+// Function to retrieve high scores from local storage
+getHighScoreBtn.addEventListener("click", retrieveHighScores);
+
+function retrieveHighScores() {
+    localStorage.getItem
 }

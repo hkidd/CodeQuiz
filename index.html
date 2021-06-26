@@ -12,7 +12,7 @@
 
         <!-- High Scores in top left, local storage? -->
         <h2 id="highScores" style="text-align: left; display: inline;">
-            View High Scores
+            <button id="highScoresBtn" class="button">High Scores</button>
         </h2>
 
         <!-- Timer will count down to zero -->
@@ -42,10 +42,6 @@
             </section>
         </div>
 
-        <div id="correctAnswerCount">
-
-        </div>
-
         <br>
         <br>
 
@@ -63,6 +59,30 @@
             </div>
             <div id="totalCorrect">Correct: </div>
             <div id="totalIncorrect">Incorrect: </div>
+            <div id="percentCorrect">Score: </div>
+            <div>
+                <button class="button" id="saveResultsBtn" onclick="saveResults()">
+                    Save Results
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Form to submit user initals and score -->
+        <div id="form" style="display: none;">
+
+            <form>
+                <label for="initials">Initials</label>
+                <input type="text" name="initials" id="initials" placeholder="aaa" />
+            </form>
+
+            <p id="finalScore"><span id="finalScore"></span></p>
+
+            <!-- This button saves user initals and score to local storage -->
+            <div>
+                <button id="saveHighScore">Save Score</button>
+            </div>
+
         </div>
 
     </main>
@@ -71,6 +91,7 @@
     <br>
     <br>
 
+    <!-- Footer area -->
     <footer style="text-align: center;">
         © 2021 Harrison Kidd
     </footer>
