@@ -9,10 +9,13 @@
 </head>
 <body>
     <header>
+
+        <!-- High Scores in top left, local storage? -->
         <h2 id="highScores" style="text-align: left; display: inline;">
             View High Scores
         </h2>
 
+        <!-- Timer will count down to zero -->
         <h2 id="timer" style="text-align: right; display: block;">
             Timer: 10 seconds<span id="timeLeft"></span>
         </h2>
@@ -25,25 +28,36 @@
             <br>
         </div>
 
+        <!-- This div holds the question and answers -->
         <div id="quiz">
             <section>
                 <div id="questionSpot" style="text-align: center;"><span id="question"></span></div>
                     Example Question <br>
-                   <div id="answer">A: answer 1</div> 
-                   <div id="answer">B: answer 2</div>
-                   <div id="answer">C: answer 3</div>
-                   <div id="answer">D: answer 4</div>
+                <div id="answerChoices">
+                   <div id="answer1">A: answer 1</div> 
+                   <div id="answer2">B: answer 2</div>
+                   <div id="answer3">C: answer 3</div>
+                   <div id="answer4">D: answer 4</div>
+                </div>
             </section>
+        </div>
+
+        <div id="correctAnswerCount">
+            
         </div>
 
         <br>
         <br>
 
         <div id="startBtn">
+            <!-- Button to start the quiz -->
             <button class="button">
                 Start Quiz!
             </button>
         </div>        
+
+        
+        <div id="results" style="display: none;"></div>
 
     </main>
 

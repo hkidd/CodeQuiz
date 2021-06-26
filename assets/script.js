@@ -37,49 +37,123 @@ var startButton = document.querySelector('#startBtn');
 var timeRemaining = document.querySelector('#timeLeft');
 var highScores = document.querySelector('#highScores');
 var questionText = document.querySelector('#question');
-var answerText = document.querySelector('#answer');
+var answerTextA = document.querySelector('#answer1');
+var answerTextB = document.querySelector('#answer2');
+var answerTextC = document.querySelector('#answer3');
+var answerTextAD = document.querySelector('#answer4');
+var correctCount = document.querySelector('#correctAnswerCount');
+var resultsContainer = document.querySelector('#results');
 
-var time = 30;
+// Global variables
+var timeLeft = 30;
 var correctAnswers = 0;
 var wrongAnswers = 0;
+var totalScore = 0;
 
-var randomQuestions
+var questionIndex = 0;
 
+// Array of all questions.  From here, the individual properties can be accessed.
 var questions = [
     {
-        question: "What is the name of the F1 track in Austin?", answers: ["America's Track", "Austin Raceway", "Circuit of the America's", "Texas Motor Speedway"],
-        answer: 2
+        question: "What is the name of the F1 track in Austin?", answerA: "America's Track", 
+        answerB: "Austin Raceway", 
+        answerC: "Circuit of the America's", 
+        answerD: "Texas Motor Speedway",
+        answer: "C"
     }, {
         question: "As of 2021, how many driver's championsips has Lewis Hamilton won?",
-        answers: ["4", "7", "10", "2"],
-        answer: 1
+        answerA: "4", 
+        answerB: "7", 
+        answerC: "10", 
+        answerD: "2",
+        answer: "7"
     }, 
     {
         question: "Alpha Tauri is the new name of what previous team?",
-        answers: ["Renault", "Jordan", "Porsche", "Torro Rosso"],
-        answer: 3
+        answerA: "Renault", 
+        answerB: "Jordan", 
+        answerC: "Porsche", 
+        answerD: "Torro Rosso",
+        answer: "D"
     }, 
     {
-        question: "Which team did Michael Schumacher "
+        question: "The current (2021) Formula 1 cars all use what size V6 engine (in liters)?",
+        answerA: "1.6", 
+        answerB: "2.4", 
+        answerC: "3.0", 
+        answerD: "3.5",
+        answer: "A"
     }];
 
 startButton.addEventListener("click", startQuiz);
 
 
+// Shuffle question array each time startQuiz is called
+function shuffle(questions) {
+    // Fisher-Yates sorting method.  Starting at the end, iterate backwards through the questions array and swap one value with another from a random position in the array.  This loops through the entire array, decrementing, while the index is above 0.
+    for (var i = questions.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = questions[i];
+        questions[i] = questions[j];
+        questions[j] = temp;
+    }
+    return questions;
+};
+
+
 // Starts other functions that begin the quiz
 function startQuiz() {
 
+    shuffle(questions);
 
 }
 
 // Function that starts the timer
+function countdown() {
+    var timeInterval = setInterval(function () {
+        timeLeft--;
+        timeRemaining.textContent = timeLeft;
+        if (timeLeft === 0) {
+            clearInterval(timeInterval);
+        }
+    }, 1000);
+}
+
+
+// Function that shows the current question
+function showQuestion() {
+    // The questionIndex should be shuffled each time the quiz is started. 
+    var currentQ = questions[questionIndex];
+
+    // Sets the inner HTML of each container to the current question and answers
+    question.innerHTML = currentQ.question;
+    answer1.innerHTML = currentQ.answerA;
+    answer2.innerHTML = currentQ.answerB;
+    answer3.innerHTML = currentQ.answerC;
+    answer4.innerHTML = currentQ.answerD;
+
+
+
+}
 
 
 
 // Function that gets next question
-// needs to randomly select a question from the array
-function nextQuestion() {
-  for (var i = 0; i < randomQuestions.length; i++) {
+// On answer click, the questionIndex will be incremented
 
-  }
+
+
+function correctAns(){
+
+}
+
+function wrongAns(){
+    
+}
+
+
+
+// Function that will show the results at the end
+function showResults() {
+
 }
