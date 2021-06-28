@@ -60,9 +60,8 @@ var correctAnswers = 0;
 var wrongAnswers = 0;
 var totalScore = 0;
 
-// Answer div event listeners, change away from OnClick in html
 
-// Array of all questions.  From here, the individual properties can be accessed.
+// Array of all questions and answers.  From here, the individual properties can be accessed.
 var questions = [
     {
         question: "What is the name of the F1 track in Austin?", 
@@ -103,7 +102,7 @@ var lastQuestionIndex = (questions.length - 1);
 // Clicking the start button starts the quiz
 startButton.addEventListener("click", startQuiz);
 
-// Resets everything upon page load and after restarting quiz
+// Resets everything upon page load and after restarting quiz.  Everything is hidden but start button.
 function init() {
     startButton.style.display = "block";
     timeRemaining.style.display = "none";
@@ -111,6 +110,7 @@ function init() {
     quizContainer.style.display = "none";
     resultsContainer.style.display = "none";
     saveResultsForm.style.display = "none";
+    highScoreOrderedList.style.display = "none";
     timeLeft = 20;
     shuffle(questions);
     currentQuestionIndex = 0;
@@ -137,7 +137,7 @@ function startQuiz(event) {
     quizContainer.style.display = "block";
 }
 
-// Function that starts the timer and decrements every second
+// Function that starts the timer and decrements every second.  If timeLeft hits 0, the interval is cleared and showResults is called.
 function countdown() {
     timeInterval = setInterval(function () {
         timeLeft--;
@@ -175,12 +175,7 @@ function showQuestion() {
     answerTextD.innerHTML = currentQ.answerD;
 }
 
-
-
-// Function that gets next question
-// On answer click, the questionIndex will be incremented
-
-// Function to check if answer is correct
+// Function to check if answer is correct, called by onclick in html 
 function checkAnswer(answer) {
     if(answer == questions[currentQuestionIndex].correct) {
         correctAnswers++;
@@ -189,16 +184,19 @@ function checkAnswer(answer) {
         wrongAns();
     }
 
-    // Check if there are still questions remaining
+    // On answer click, the questionIndex will be incremented
+    // Checks if there are still questions remaining
     if (currentQuestionIndex < lastQuestionIndex) {
         currentQuestionIndex++;
         showQuestion();
-        // if not, the timer ends and the results container is shown
+        // if no questions remain, the timer ends and the results container is shown
     } else {
         clearInterval(timeInterval);
         showResults();
     }
 }
+
+
 
 // Timer decreases by 5 seconds for every wrong answer
 function wrongAns() {
@@ -208,22 +206,24 @@ function wrongAns() {
 // Initialize final score value and function to calculate score
 var score;
 function calculateScore() {
-    score = (100 * ((correctAnswers - wrongAnswers)/questions.length));
+    score = (100 * (correctAnswers/questions.length));
 }
 
 // Function that will show the results at the end
 function showResults() {
     calculateScore();
 
+    // When showResults is called, the quiz and timer containers are hidden to only show the results
     resultsContainer.style.display = "block";
     quizContainer.style.display = "none";
     timerText.style.display = "none";
 
-    // Show total correct and incorrect answers
+    // Show total correct and incorrect answers, as well as total score
     totalCorrect.innerHTML = "Correct: " + correctAnswers;
     totalIncorrect.innerHTML = "Incorrect: " + wrongAnswers;
     percentCorrect.innerHTML = "Score: " + score;
 
+    // Sets the time remaining to an empty string
     timeRemaining.textContent = '';
 }
 
@@ -241,6 +241,9 @@ function saveResults() {
 // Event listener for clicking the save high score button
 saveHighScoreBtn.addEventListener("click", saveHighScore);
 
+var userScores = [];
+var maxScores = 3;
+
 function saveHighScore() {
     calculateScore();
 
@@ -248,8 +251,16 @@ function saveHighScore() {
         initials: initials.value.trim(),
         highScore: score,
       }
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
+      userScores.push(userInfo);
+      userScores.sort((a,b) => b.highScore - a.highScore);
+      userScores.splice(maxScores);
+      console.log(userScores);
+
+
+    localStorage.setItem("userScores", JSON.stringify(userScores));
+
+    // After clicking the save score button, the user is prompted to play again
     var playAgain = confirm("Would you like to try again?");
     if (playAgain)
         init();
@@ -259,10 +270,12 @@ function saveHighScore() {
 // Function to retrieve high scores from local storage
 getHighScoreBtn.addEventListener("click", retrieveHighScores);
 
-// 
+var storedScores = JSON.parse(localStorage.getItem("userScores")) || [];
+
 function retrieveHighScores() {
-    // Get stored value from client storage, if it exists
-    var storedScores = JSON.parse(localStorage.getItem("userInfo"));
+// Get stored value from client storage, if it exists
+// var storedScores = JSON.parse(localStorage.getItem("userScores"));
+    
 // If stored value doesn't exist, set to empty string
   if (storedScores === null) {
      var highScores = '';
@@ -270,8 +283,14 @@ function retrieveHighScores() {
     // If a value is retrieved from client storage set highScores to that value
     highScores = storedScores;
   }
-  //Render high score to page
-  highScoreOrderedList.innerHTML = highScores.initials + ', ' + highScores.highScore;
+  //  Render high scores to page
+  //  In order to return a list of the high scores, the initials and highScore values are mapped to a 
+  //  list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as
+  //  a string).
+  highScoreOrderedList.innerHTML = highScores
+  .map( score => {
+    return `<li>${score.initials}: ${score.highScore}</li>`;
+  }).join("");
 }
 
 init();
