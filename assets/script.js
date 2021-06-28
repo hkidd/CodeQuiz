@@ -110,7 +110,6 @@ function init() {
     quizContainer.style.display = "none";
     resultsContainer.style.display = "none";
     saveResultsForm.style.display = "none";
-    highScoreOrderedList.style.display = "none";
     timeLeft = 20;
     shuffle(questions);
     currentQuestionIndex = 0;
@@ -196,8 +195,6 @@ function checkAnswer(answer) {
     }
 }
 
-
-
 // Timer decreases by 5 seconds for every wrong answer
 function wrongAns() {
     timeLeft = timeLeft - 5; 
@@ -230,7 +227,7 @@ function showResults() {
 // Event listener for clicking the save results button
 saveResultsBtn.addEventListener("click", saveResults);
 
-// Function to save results to local storage
+// Function that displays the final save results form
 function saveResults() {
     calculateScore();
     saveResultsForm.style.display = "block";
@@ -241,22 +238,24 @@ function saveResults() {
 // Event listener for clicking the save high score button
 saveHighScoreBtn.addEventListener("click", saveHighScore);
 
+// An empty array is created to hold the user scores, with a max amount of scores also set
 var userScores = [];
 var maxScores = 3;
 
 function saveHighScore() {
     calculateScore();
 
+    // Variable initialized to store the users initials and high score for record keeping
     var userInfo = { 
         initials: initials.value.trim(),
         highScore: score,
       }
 
+    //   The user intials and score are pushed into the userScores array, which will hold the top 3 scores in local storage.  These are also sorted from high to low and splice removes everything after the 3rd element.
       userScores.push(userInfo);
       userScores.sort((a,b) => b.highScore - a.highScore);
       userScores.splice(maxScores);
       console.log(userScores);
-
 
     localStorage.setItem("userScores", JSON.stringify(userScores));
 
@@ -268,29 +267,21 @@ function saveHighScore() {
 }
 
 // Function to retrieve high scores from local storage
-getHighScoreBtn.addEventListener("click", retrieveHighScores);
+getHighScoreBtn.addEventListener("click", mapHighScores);
 
+// Get stored score values from client storage, if they exist, and save to a golbal variable or empty array
 var storedScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
-function retrieveHighScores() {
-// Get stored value from client storage, if it exists
-// var storedScores = JSON.parse(localStorage.getItem("userScores"));
-    
-// If stored value doesn't exist, set to empty string
-  if (storedScores === null) {
-     var highScores = '';
-  } else {
-    // If a value is retrieved from client storage set highScores to that value
-    highScores = storedScores;
-  }
-  //  Render high scores to page
+function mapHighScores() {
+  // If a value is retrieved from client storage set highScores to that value
   //  In order to return a list of the high scores, the initials and highScore values are mapped to a 
   //  list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as
   //  a string).
-  highScoreOrderedList.innerHTML = highScores
+    highScoreOrderedList.innerHTML = storedScores
   .map( score => {
     return `<li>${score.initials}: ${score.highScore}</li>`;
   }).join("");
-}
+  }
 
+// The init function sets the website/quiz to it's inital state on page load
 init();
