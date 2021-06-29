@@ -1,32 +1,3 @@
-// GIVEN I am taking a code quiz
-
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-//          1.  Start button begins game
-//          2.  Timer starts counting down
-//          3.  First question is presented with answer choices
-
-// WHEN I answer a question
-// THEN I am presented with another question
-//          1.  Need an array of questions and answers (array of objects?)
-//          2.  After clicking answer button, switch to another question/answer set (increment question index)
-//          3.  Questions will be randomly picked from the array and presented (questions are randomized when startQuiz is called)
-//          4.  Append list of answers to the question location inside body (innerHTML will be used to show the questions and answers)
-//          5.  The random question selected will replace the innerHTML
-
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-//          1.  If answer is incorrect, subtract time from the timer (decrement)
-
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-//          1.  If all questions are answered or time = 0, terminate function
-//          2.  Display Game Over message?
-
-// WHEN the game is over
-// THEN I can save my initials and my score
-//          1.  When game ends, prompt or new form is presented to save user initials and score
-
 // HTML references
 // General variables
 var quizContainer = document.querySelector('#quiz');
@@ -273,15 +244,27 @@ getHighScoreBtn.addEventListener("click", mapHighScores);
 var storedScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
 function mapHighScores() {
-  // If a value is retrieved from client storage set highScores to that value
-  //  In order to return a list of the high scores, the initials and highScore values are mapped to a 
-  //  list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as
-  //  a string).
-    highScoreOrderedList.innerHTML = storedScores
-  .map( score => {
-    return `<li>${score.initials}: ${score.highScore}</li>`;
-  }).join("");
-  }
+    var state = highScoreOrderedList.getAttribute("data-state");
+
+    if (state === "hidden") {
+        // If the button is clicked while the state is "hidden", we set .textContent to the high scores 
+
+        // If a value is retrieved from client storage set highScores to that value
+        //  In order to return a list of the high scores, the initials and highScore values are mapped to a list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as a string).
+        highScoreOrderedList.innerHTML = storedScores
+        .map( score => {
+        return `<li>${score.initials}: ${score.highScore}</li>`;
+        }).join("");
+        // Using the dataset property, we change the state to visible because the user can now see the scores
+        highScoreOrderedList.dataset.state = "visible";
+
+      } else {
+        // 'Hide' the high scores by setting .textContent to an empty string
+        highScoreOrderedList.textContent= "";
+        // Use .setAttribute() method to change back to hidden
+        highScoreOrderedList.setAttribute("data-state", "hidden")
+      }
+}
 
 // The init function sets the website/quiz to it's inital state on page load
 init();

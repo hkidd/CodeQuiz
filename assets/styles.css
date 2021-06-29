@@ -47,13 +47,15 @@ header h2 {
 }
 
 #startBtn {
+    font-size: 150%;
     width: 50%;
     margin: auto;
     text-align: center;
 }
 
 #startBtn:hover,
-#highScoresBtn:hover {
+#highScoresBtn:hover,
+#saveHighScore:hover {
     transition: all 0.5s ease-in-out;
     transform: scale(1.05);
 }
@@ -70,7 +72,8 @@ header h2 {
 
 .button:hover,
 .choice:hover,
-#saveHighScore:hover {
+#saveHighScore:hover,
+#saveResultsBtn:hover {
     background-color: red;
     color: whitesmoke;
     border: 3px solid whitesmoke;
@@ -84,7 +87,8 @@ header h2 {
 
 .button:active,
 .choice:active,
-#saveHighScore:active {
+#saveHighScore:active,
+#saveResultsBtn:active {
     background-color: red;
     color: whitesmoke;
     border: 3px solid black;
