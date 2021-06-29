@@ -1,18 +1,21 @@
-// HTML references
+// HTML reference variables
 // General variables
 var quizContainer = document.querySelector('#quiz');
 var startButton = document.querySelector('#startBtn');
 var timeRemaining = document.querySelector('#timeLeft');
+
 // High score retrieval variables
 var highScoreContainer = document.querySelector('#highScores');
 var getHighScoreBtn = document.querySelector('#highScoresBtn');
 var highScoreOrderedList = document.querySelector('#highScoreList');
+
 // Question and answer variables
 var questionText = document.querySelector('#question');
 var answerTextA = document.querySelector('#answer1');
 var answerTextB = document.querySelector('#answer2');
 var answerTextC = document.querySelector('#answer3');
 var answerTextD = document.querySelector('#answer4');
+
 // Results and score related variables
 var resultsContainer = document.querySelector('#results');
 var totalCorrect = document.querySelector('#totalCorrect');
@@ -25,7 +28,7 @@ var saveHighScoreBtn = document.querySelector('#saveHighScore');
 
 // Global time and score variables
 var timerText = document.querySelector('#timer');
-var timeLeft = 20;
+var timeLeft = 25;
 var timeInterval; // global to be accessed by multiple functions
 var correctAnswers = 0;
 var wrongAnswers = 0;
@@ -70,6 +73,9 @@ var questions = [
 var currentQuestionIndex = 0;
 var lastQuestionIndex = (questions.length - 1);    
 
+
+// FUNCTIONS RELATED TO STARTING QUIZ AND TIMER COUNTDOWN
+
 // Clicking the start button starts the quiz
 startButton.addEventListener("click", startQuiz);
 
@@ -81,7 +87,7 @@ function init() {
     quizContainer.style.display = "none";
     resultsContainer.style.display = "none";
     saveResultsForm.style.display = "none";
-    timeLeft = 20;
+    timeLeft = 25;
     shuffle(questions);
     currentQuestionIndex = 0;
     correctAnswers = 0;
@@ -91,6 +97,7 @@ function init() {
 
 // Starts other functions that begin the quiz
 function startQuiz(event) {
+    // Prevent default button click behavior
     event.preventDefault();
 
     // Calls the function to start the timer
@@ -119,6 +126,9 @@ function countdown() {
         }
     }, 1000);
 }
+
+
+// FUNCTIONS RELATED TO SHUFFLING QUESTION ARRAY AND DISPLAYING CURRENT QUESTION AND ANSWERS
 
 // Shuffle question array each time startQuiz is called
 function shuffle(questions) {
@@ -158,7 +168,7 @@ function checkAnswer(answer) {
     if (currentQuestionIndex < lastQuestionIndex) {
         currentQuestionIndex++;
         showQuestion();
-        // if no questions remain, the timer ends and the results container is shown
+    // if no questions remain, the timer is  and the results container is shown
     } else {
         clearInterval(timeInterval);
         showResults();
@@ -169,6 +179,9 @@ function checkAnswer(answer) {
 function wrongAns() {
     timeLeft = timeLeft - 5; 
 }
+
+
+// FUNCTIONS RELATED TO SCORE CALCULATION AND SAVING HIGH SCORES
 
 // Initialize final score value and function to calculate score
 var score;
@@ -218,7 +231,7 @@ function saveHighScore() {
         highScore: score,
       }
 
-    //   The user intials and score are pushed into the userScores array, which will hold the top 3 scores in local storage.  These are also sorted from high to low and splice removes everything after the 3rd element.
+    // The user intials and score are pushed into the userScores array, which will hold the top 3 scores in local storage.  These are also sorted from high to low and splice removes everything after the 3rd element.
       userScores.push(userInfo);
       userScores.sort((a,b) => b.highScore - a.highScore);
       userScores.splice(maxScores);
@@ -240,9 +253,9 @@ function mapHighScores() {
     // Get stored score values from client storage each time this function is called, if they exist, and save to a golbal variable or empty array
     var storedScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
-    //  In order to return a list of the high scores, the initials and highScore values are mapped to a list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as a string).
+    // In order to return a list of the high scores, the initials and highScore values are mapped to a list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as a string).
     highScoreOrderedList.innerHTML = storedScores
-        .map( score => {
+        .map(score => {
         return `<li>${score.initials}: ${score.highScore}</li>`;
         }).join("");
 
