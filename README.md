@@ -42,18 +42,18 @@ When a user clicks the Start Quiz button, the array of questions and answers are
 If desired, more questions and answers could be added to the questions array (along with a change to the time limit) to increase the length of this quiz.  The question sorting and other functions were designed to run the same regardless of the number of questions.
 
 ## Made with the help of + references
-Previous boot camp exercises (time intervals, local storage, DOM manipulation)
-Jessamyn McTwigan
-Jacob Guiro
+Previous boot camp exercises (time intervals, local storage, DOM manipulation) <br>
+Jessamyn McTwigan <br>
+Jacob Guiro <br>
 
-Web Dev Simplified (YT)
-Code Explained 
-James Quick (YT)
+Web Dev Simplified (YT) <br>
+Code Explained <br>
+James Quick (YT) <br>
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Contact
-Harrison Kidd
+Harrison Kidd <br>
 
 harrisonakidd@gmail.com 
