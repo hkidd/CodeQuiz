@@ -4,6 +4,9 @@ A timed quiz on random Formula 1 facts that stores the top 3 high scores in loca
 ## Purpose
 
 ## Acceptance Criteria
+```
+
+```
 
 ## The bulk of the challenge
 
