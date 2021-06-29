@@ -134,7 +134,7 @@ function shuffle(questions) {
 
 // Function that shows the current question with answers in the quiz container
 function showQuestion() {
-    // The questionIndex should be shuffled each time the quiz is started. 
+    // The currentQuestionIndex should be shuffled each time the quiz is started, thus starting with a different question each time. 
     var currentQ = questions[currentQuestionIndex];
 
     // Sets the inner HTML of each container to the current question and answers
@@ -154,8 +154,7 @@ function checkAnswer(answer) {
         wrongAns();
     }
 
-    // On answer click, the questionIndex will be incremented
-    // Checks if there are still questions remaining
+    // On answer click, the questionIndex will be incremented if there are still questions remaining
     if (currentQuestionIndex < lastQuestionIndex) {
         currentQuestionIndex++;
         showQuestion();
@@ -190,9 +189,6 @@ function showResults() {
     totalCorrect.innerHTML = "Correct: " + correctAnswers;
     totalIncorrect.innerHTML = "Incorrect: " + wrongAnswers;
     percentCorrect.innerHTML = "Score: " + score;
-
-    // Sets the time remaining to an empty string
-    timeRemaining.textContent = '';
 }
 
 // Event listener for clicking the save results button
@@ -237,30 +233,29 @@ function saveHighScore() {
         else return;
 }
 
-// Function to retrieve high scores from local storage
+// Event listener to retrieve high scores from local storage
 getHighScoreBtn.addEventListener("click", mapHighScores);
 
-// Get stored score values from client storage, if they exist, and save to a golbal variable or empty array
-var storedScores = JSON.parse(localStorage.getItem("userScores")) || [];
-
 function mapHighScores() {
-    var state = highScoreOrderedList.getAttribute("data-state");
+    // Get stored score values from client storage each time this function is called, if they exist, and save to a golbal variable or empty array
+    var storedScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
-    if (state === "hidden") {
-        // If the button is clicked while the state is "hidden", we set .textContent to the high scores 
-
-        // If a value is retrieved from client storage set highScores to that value
-        //  In order to return a list of the high scores, the initials and highScore values are mapped to a list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as a string).
-        highScoreOrderedList.innerHTML = storedScores
+    //  In order to return a list of the high scores, the initials and highScore values are mapped to a list that then replaces the innerHTML of the highScoreOrderedList element (and joined together as a string).
+    highScoreOrderedList.innerHTML = storedScores
         .map( score => {
         return `<li>${score.initials}: ${score.highScore}</li>`;
         }).join("");
-        // Using the dataset property, we change the state to visible because the user can now see the scores
+
+    var state = highScoreOrderedList.getAttribute("data-state");
+
+    if (state === "hidden") {
+        // If the button is clicked while the state is "hidden", the high scores list becomes visible
+        highScoreOrderedList.style.display = "block";
         highScoreOrderedList.dataset.state = "visible";
 
       } else {
-        // 'Hide' the high scores by setting .textContent to an empty string
-        highScoreOrderedList.textContent= "";
+        // 'Hide' the high scores by setting the display style to none
+        highScoreOrderedList.style.display = "none";
         // Use .setAttribute() method to change back to hidden
         highScoreOrderedList.setAttribute("data-state", "hidden")
       }

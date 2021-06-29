@@ -30,7 +30,7 @@ THEN I can save my initials and my score
 The main challenge for me in this assignment was to get all of the various functions working together properly, culminating in being able to save user scores.  
 
 ## End result
-After much time and effort, my Formula 1 quiz is in an entirely functional state and saves the top three user scores to local storage.
+After much time and effort, my Formula 1 quiz is in an entirely functional state and saves the top three user scores (in order) to local storage.
 
 ## Made with the help and guidance of 
 
