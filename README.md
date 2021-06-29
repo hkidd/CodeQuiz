@@ -1,6 +1,8 @@
 # CodeQuiz_HW4
 A timed quiz on random Formula 1 facts that stores the top 3 high scores in local storage.
 
+Link to live page: https://hkidd.github.io/CodeQuiz_HW4/
+
 ## Purpose
 The purpose of this homeowrk assignment was to create a timed quiz using JavaScript fundamentals (DOM manipulation, event listeners, functions, etc.) that dynamically updates the associated HTML/CSS and saves high scores to local storage.
 
