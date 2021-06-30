@@ -148,11 +148,11 @@ function showQuestion() {
     var currentQ = questions[currentQuestionIndex];
 
     // Sets the inner HTML of each container to the current question and answers
-    question.innerHTML = currentQ.question;
-    answerTextA.innerHTML = currentQ.answerA;
-    answerTextB.innerHTML = currentQ.answerB;
-    answerTextC.innerHTML = currentQ.answerC;
-    answerTextD.innerHTML = currentQ.answerD;
+    question.textContent = currentQ.question;
+    answerTextA.textContent = currentQ.answerA;
+    answerTextB.textContent = currentQ.answerB;
+    answerTextC.textContent = currentQ.answerC;
+    answerTextD.textContent = currentQ.answerD;
 }
 
 // Function to check if answer is correct, called by onclick in html 
