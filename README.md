@@ -46,6 +46,8 @@ Previous boot camp exercises (time intervals, local storage, DOM manipulation) <
 Jessamyn McTwigan <br>
 Jacob Guiro <br>
 
+MDN Docs <br>
+W3 Schools <br>
 Web Dev Simplified (YT) <br>
 Code Explained <br>
 James Quick (YT) <br>
