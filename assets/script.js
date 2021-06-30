@@ -199,9 +199,9 @@ function showResults() {
     timerText.style.display = "none";
 
     // Show total correct and incorrect answers, as well as total score
-    totalCorrect.innerHTML = "Correct: " + correctAnswers;
-    totalIncorrect.innerHTML = "Incorrect: " + wrongAnswers;
-    percentCorrect.innerHTML = "Score: " + score;
+    totalCorrect.textContent = "Correct: " + correctAnswers;
+    totalIncorrect.textContent = "Incorrect: " + wrongAnswers;
+    percentCorrect.textContent = "Score: " + score;
 }
 
 // Event listener for clicking the save results button
@@ -211,7 +211,7 @@ saveResultsBtn.addEventListener("click", saveResults);
 function saveResults() {
     calculateScore();
     saveResultsForm.style.display = "block";
-    finalScore.innerHTML = "Score = " + score;
+    finalScore.textContent = "Score = " + score;
     resultsContainer.style.display = "none";
 }
 
