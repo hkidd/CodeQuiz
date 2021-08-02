@@ -1,4 +1,4 @@
-# CodeQuiz_HW4
+# CodeQuiz
 A timed quiz on random Formula 1 facts that stores the top 3 high scores in local storage.
 
 Link to live page: https://hkidd.github.io/CodeQuiz_HW4/
